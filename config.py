@@ -24,3 +24,4 @@ RANDOM_SEED = 629
 ### GPU SETTINGS
 CUDA_DEVICE = 0  # GPU device ID
 GPU_MODE = torch.cuda.is_available()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
