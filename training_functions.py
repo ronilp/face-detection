@@ -5,8 +5,12 @@
 
 import sys
 import torch
+from torch import optim
 from tqdm import tqdm
-from config import device
+
+from config import device, BASE_LR
+from model import LeNet5
+
 
 def loss_batch(model, criterion, x, y, opt=None):
     outputs = model(x)
@@ -63,3 +67,8 @@ def fit(num_epochs, model, criterion, opt, train_dataloader, val_dataloader=None
         print("Validation accuracy: %.2f" % val_acc[-1])
 
     return train_loss, train_acc, val_loss, val_acc
+
+def get_model():
+    model = LeNet5()
+    model.to(device)
+    return model, optim.Adam(model.parameters(), lr=BASE_LR)

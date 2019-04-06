@@ -38,3 +38,10 @@ def load_datasets_from_csv(DatasetClass, transforms=None):
 def load_testset_from_csv(DatasetClass, transforms=None):
     datasets = {x: DatasetClass(config.DATA_DIR, x, transforms) for x in ['test']}
     return load_testset(DatasetClass, transforms, datasets)
+
+def find_classes(dir):
+    classes = [d for d in os.listdir(dir) if
+               os.path.isdir(os.path.join(dir, d)) and d in config.ALLOWED_CLASSES]
+    classes.sort()
+    class_to_idx = {classes[i]: i for i in range(len(classes))}
+    return classes, class_to_idx

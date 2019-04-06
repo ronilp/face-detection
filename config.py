@@ -13,13 +13,17 @@ EARLY_STOPPING_PATIENCE = 10
 
 ### Dataset Config
 DATA_DIR = "data"
-ALLOWED_CLASSES = []
+ALLOWED_CLASSES = ["face", "no_face"]
 NUM_CLASSES = len(ALLOWED_CLASSES)
+num_workers = 4
+dataset_size = 60000
+train_ratio = 0.8
+
 
 ### Miscellaneous Config
 MODEL_PREFIX = "model_name"
-BATCH_SIZE = 16
 RANDOM_SEED = 629
+BATCH_SIZE = 64
 
 ### GPU SETTINGS
 CUDA_DEVICE = 0  # GPU device ID
