@@ -2,10 +2,8 @@
 # Author: Ronil Pancholia
 # Date: 4/6/19
 # Time: 3:23 PM
-import cv2
 import os
-
-import numpy as np
+import cv2
 import torch
 from torch.utils.data.dataset import Dataset
 
@@ -17,7 +15,6 @@ class FaceDataset(Dataset):
     def __init__(self, dir_path, mode, transforms=None):
         # Set transforms
         self.transforms = transforms
-
         print("Loading dataset from ", dir_path)
 
         self.img_arr = []
@@ -27,7 +24,6 @@ class FaceDataset(Dataset):
         for class_name in config.ALLOWED_CLASSES:
             self.class_counts[class_name] = 0
 
-
         for class_name in config.ALLOWED_CLASSES:
             class_path = os.path.join(dir_path, class_name)
             for file_name in os.listdir(class_path):
@@ -36,7 +32,7 @@ class FaceDataset(Dataset):
 
                 self.img_arr.append(os.path.join(class_path, file_name))
                 self.label_arr.append(self.class_to_idx[class_name])
-                self.class_counts[class_name] +=1
+                self.class_counts[class_name] += 1
 
         # Calculate len
         self.data_len = len(self.img_arr)
@@ -45,8 +41,7 @@ class FaceDataset(Dataset):
 
     def __getitem__(self, index):
         input = cv2.imread(self.img_arr[index])
-
-        input = cv2.resize(input, (32, 32))
+        input = cv2.resize(input, (60, 60))
 
         if self.transforms is not None:
             input = self.transforms(input)

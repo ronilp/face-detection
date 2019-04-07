@@ -43,9 +43,8 @@ def save_plots(train_loss, train_acc, val_loss, val_acc):
 # Normalize using mean and stddev of training set
 transform_ops = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
-dataset_loaders, dataset_sizes = dataset_utils.load_datasets(FaceDataset)
-
-test_dataloaders, _ = dataset_utils.load_testset(FaceDataset)
+dataset_loaders, dataset_sizes = dataset_utils.load_datasets(FaceDataset, transforms=transform_ops)
+test_dataloaders, _ = dataset_utils.load_testset(FaceDataset, transforms=transform_ops)
 test_dataloader = utils.data.DataLoader(test_dataloaders['test'], batch_size=BATCH_SIZE * 4, num_workers=NUM_WORKERS)
 
 criterion = nn.CrossEntropyLoss()

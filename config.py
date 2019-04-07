@@ -6,10 +6,11 @@
 import torch
 
 ### Learning Parameters
-BASE_LR = 1e-3
-TRAIN_EPOCHS = 50
+BASE_LR = 1e-1
+TRAIN_EPOCHS = 20
 EARLY_STOPPING_ENABLED = False
 EARLY_STOPPING_PATIENCE = 10
+REGULARIZATION_LAMBDA = 1e-6
 
 ### Dataset Config
 DATA_DIR = "data"
