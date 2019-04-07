@@ -7,6 +7,7 @@ import os
 from shutil import copyfile
 import random
 dir_path = "data/processed"
+output_path = "data"
 
 def split_dir(train_split, val_split, class_name):
     orig_path = os.path.join(dir_path, class_name)
@@ -30,7 +31,7 @@ def split_dir(train_split, val_split, class_name):
 def copy_files(file_list, mode, class_name):
     path = os.path.join(dir_path, class_name)
     for file_name in file_list:
-        dest = os.path.join(dir_path, mode + class_name)
+        dest = os.path.join(output_path, mode + class_name)
         print("Copying :", os.path.join(path, file_name), " to ", os.path.join(dest, file_name))
         copyfile(os.path.join(path, file_name), os.path.join(dest, file_name))
 

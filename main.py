@@ -6,10 +6,8 @@
 import matplotlib
 import numpy as np
 import torch
-import torchvision
 from torch import nn, utils
 from torch.utils.data import DataLoader
-from torch.utils.data.dataset import random_split
 from torchvision import transforms
 
 import dataset_utils
@@ -19,7 +17,7 @@ matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 from training_functions import get_model, fit
-from config import RANDOM_SEED, dataset_size, train_ratio, BATCH_SIZE, num_workers, TRAIN_EPOCHS, device
+from config import RANDOM_SEED, BATCH_SIZE, NUM_WORKERS, TRAIN_EPOCHS, device
 
 torch.manual_seed(RANDOM_SEED)
 
@@ -31,20 +29,16 @@ def save_plots(train_loss, train_acc, val_loss, val_acc):
     plt.ylabel("loss")
     plt.xlabel("epoch")
     plt.legend(loc='upper right')
-    plt.show()
     plt.savefig("loss.png")
+    plt.clf()
 
     plt.plot(lst_iter, train_acc, '-b', label='training accuracy')
     plt.plot(lst_iter, val_acc, '-r', label='validation accuracy')
     plt.ylabel("accuracy")
     plt.xlabel("epoch")
-    plt.legend(loc='bottom right')
-    plt.show()
+    plt.legend(loc='lower right')
     plt.savefig("accuracy.png")
 
-
-train_size = int(dataset_size * train_ratio)
-val_size = dataset_size - train_size
 
 # Normalize using mean and stddev of training set
 transform_ops = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
@@ -52,7 +46,7 @@ transform_ops = transforms.Compose([transforms.ToTensor(), transforms.Normalize(
 dataset_loaders, dataset_sizes = dataset_utils.load_datasets(FaceDataset)
 
 test_dataloaders, _ = dataset_utils.load_testset(FaceDataset)
-test_dataloader = utils.data.DataLoader(test_dataloaders['test'], batch_size=BATCH_SIZE * 4, num_workers=num_workers)
+test_dataloader = utils.data.DataLoader(test_dataloaders['test'], batch_size=BATCH_SIZE * 4, num_workers=NUM_WORKERS)
 
 criterion = nn.CrossEntropyLoss()
 
@@ -76,7 +70,7 @@ def test_model():
     model.eval()
     results = []
     corrects = 0
-    for image, label in test_dataloader:
+    for image, label in test_dataloaders['test']:
         image, label = image.to(device), label.to(device)
         outputs = model(image)
         preds = torch.argmax(outputs.data, 1)
@@ -84,13 +78,6 @@ def test_model():
         preds = preds.cpu()
         results.extend(np.asarray(preds))
 
-    print("Testing accuracy :", 100 * corrects / len(test_dataloader.dataset))
+    print("Testing accuracy :", 100 * corrects / len(test_dataloaders['test'].dataset))
 
-    def convert_to_one_hot(arr):
-        b = np.zeros((10000, 10))
-        b[np.arange(10000), arr] = 1
-        return b.astype(int)
-
-    # Save results
-    results = convert_to_one_hot(results)
-    np.savetxt("mnist.csv", results, delimiter=",", fmt="%i")
+test_model()

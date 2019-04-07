@@ -14,7 +14,7 @@ class LeNet5(nn.Module):
         self.avg_pool = nn.AvgPool2d(kernel_size=2, stride=2)
         self.act = nn.Tanh()
         self.fc1 = nn.Linear(120, 84)
-        self.fc2 = nn.Linear(84, 10)
+        self.fc2 = nn.Linear(84, 2)
 
     def forward(self, x):
         x = x.view(-1, 3, 32, 32)

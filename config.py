@@ -6,7 +6,7 @@
 import torch
 
 ### Learning Parameters
-BASE_LR = 1e-4
+BASE_LR = 1e-3
 TRAIN_EPOCHS = 50
 EARLY_STOPPING_ENABLED = False
 EARLY_STOPPING_PATIENCE = 10
@@ -15,9 +15,7 @@ EARLY_STOPPING_PATIENCE = 10
 DATA_DIR = "data"
 ALLOWED_CLASSES = ["face", "no_face"]
 NUM_CLASSES = len(ALLOWED_CLASSES)
-num_workers = 4
-dataset_size = 60000
-train_ratio = 0.8
+NUM_WORKERS = 4
 
 
 ### Miscellaneous Config
