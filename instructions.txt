@@ -1,0 +1,10 @@
+To train/test the model, the following scripts have to be executed.
+
+1. To generate the data
+python preprocess_data.py
+
+2. To split the dataset into training, validation and test set
+python dataset_splitter.py
+
+3. To train/test the model
+python main.py
